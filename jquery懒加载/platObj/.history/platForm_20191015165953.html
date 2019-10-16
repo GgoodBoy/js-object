@@ -1,0 +1,211 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum=1.0,user-scalable=no">
+  <meta name="format-detection" content="telephone=no, email=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' *.alicdn.com *.qq.com *.wx.qq.com *.7moor.com * *.youfushuyuan.com *.xueguoxue.com *.sohu.com 'unsafe-inline' 'unsafe-eval'">
+
+</head>
+
+<body>
+  <div id="platFormId">
+    <div class="titleNav">
+        <img class="imgInf" src="./img/returnImg.png"/>
+        合作平台
+    </div>
+    <div class="platList">
+        <ul></ul>
+    </div>
+  </div>
+</body>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script> 
+!(function(doc, win) {
+    var docEle = doc.documentElement,
+        evt = "onorientationchange" in window ? "orientationchange" : "resize",
+        fn = function() {
+            var width = docEle.clientWidth;
+            width && (docEle.style.fontSize = Math.ceil(42 * (width / 320)) + "px");
+        };
+    win.addEventListener(evt, fn, false);
+    doc.addEventListener("DOMContentLoaded", fn, false);
+ 
+}(document, window));
+</script>
+<script>
+    $(function(){
+        $(".imgInf").click(function(){
+            window.history.back(-1); 
+        });
+        // var JSON =[];
+        var JSON = [
+            {url:"./img/img1.png"},
+            {url:"./img/img2.png"},
+            {url:"./img/img3.png"},
+            {url:"./img/img4.png"},
+            {url:"./img/img5.png"},
+            {url:"./img/img6.png"},
+            {url:"./img/img7.png"},
+            {url:"./img/img8.png"},
+            {url:"./img/img9.png"},
+            {url:"./img/img10.png"},
+            {url:"./img/img11.png"},
+            {url:"./img/img12.png"},
+            {url:"./img/img13.png"},
+            {url:"./img/img14.png"},
+            {url:"./img/img15.png"},
+            {url:"./img/img16.png"},
+            {url:"./img/img17.png"},
+            {url:"./img/img18.png"},
+            {url:"./img/img19.png"},
+            {url:"./img/img20.png"},
+            {url:"./img/img21.png"},
+            {url:"./img/img22.png"},
+            {url:"./img/img23.png"},
+            {url:"./img/img24.png"},
+            {url:"./img/img25.png"},
+            {url:"./img/img26.png"},
+            {url:"./img/img27.png"},
+            {url:"./img/img28.png"},
+            {url:"./img/img29.png"},
+            {url:"./img/img30.png"},
+            {url:"./img/img31.png"},
+            {url:"./img/img32.png"},
+            {url:"./img/img33.png"},
+            {url:"./img/img34.png"},
+            {url:"./img/img35.png"},
+            {url:"./img/img36.png"},
+            {url:"./img/img37.png"},
+            {url:"./img/img38.png"},
+            {url:"./img/img39.png"},
+            {url:"./img/img40.png"},                                    
+            
+        ];
+        //初始化动态创建dom；
+        var imgListAjax = ()=>{
+            var parentsDom = $(".platList ul");
+            JSON.forEach((element,index) => {
+                parentsDom.append(`
+                <li>
+                    <img data-src="${element.url}" src="./img/longs.gif" />
+                </li>
+                `)                    
+            });
+        };
+        //动态给当前可是去img切换url;
+        var changeUrlTime =()=>{
+            setTimeout(()=>{
+                // 获取页面滚动的高度:
+                // 获取包含data-src属性的img，并以jQuery对象存入数组:
+                var $window = $(".platList");
+                var lazyImgs = $('img[data-original]')
+                var xxx=[]
+                $('img[data-original],div[data-original]').each(function(index,element){
+                    xxx.push($(this))
+                })            
+                var wtop = $window.scrollTop();
+                    // 判断是否还有未加载的img:
+                    if (xxx.length > 0) {
+                        // 获取可视区域高度:
+                        var wheight =$window.height();
+                        console.log(wheight)
+                        // 存放待删除的索引:
+                        var loadedIndex = [];
+                        // 循环处理数组的每个img元素:
+                        $.each(xxx, function (index, i) {
+                            console.log(i)
+                            // 判断是否在可视范围加200px内:
+                            if (i.offset().top - wtop < wheight + 200) {
+                                if(i[0].tagName === 'IMG'){
+                                    i.attr('src', i.attr('data-original'));
+                                }else if(i[0].tagName === 'DIV'){
+                                    i.css('background',"url(img/bmw_m1_hood.jpg)")
+                                }
+                                // 设置src属性:
+                                i.attr('src', i.attr('data-original'));
+                                // 添加到待删除数组:
+                                loadedIndex.unshift(index);
+                            }
+                        });
+                        // 删除已处理的对象:
+                        $.each(loadedIndex, function (index) {
+                            xxx.splice(index, 1);
+                        });
+                    }
+                                
+            },200);
+        }
+        imgListAjax();
+        changeUrlTime();
+        // $(".platList").scroll();
+    });
+</script>
+<style>
+html{
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    background: 0 0;
+    color: #000;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;  
+    width: 100%;
+    height: 100%;                  
+}
+body{
+    width: 100%;
+    height: 100%;
+    margin: 0;    
+}
+#platFormId{
+    background: #F4F4F4;
+    overflow: hidden;
+}
+#platFormId .titleNav{
+    text-align: center;
+    width: 100%;
+    height: 1.28rem;
+    font-size: 0.36rem;
+    line-height: 1.28rem;
+    color: #333333;
+    background: #fff;
+    position: relative;
+}
+#platFormId .titleNav .imgInf{
+    position: absolute;
+    left: 0.3rem;
+    width: 0.36rem;
+    bottom: 0.4rem;
+}
+#platFormId .platList{
+    height: calc(100vh - 1.58rem);
+    overflow: scroll;
+    margin-top: 0.3rem;
+    padding:0 0.25rem;
+}
+#platFormId .platList ul{
+    zoom: 1;
+    overflow: inherit;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+#platFormId .platList ul li{
+    float: left;
+    list-style: none;
+    width: 3.4rem;
+    height: 2rem;
+}
+#platFormId .platList ul li:nth-child(even){
+    margin-left: 0.2rem;
+}
+#platFormId .platList ul li img{
+    width: 100%;
+    border-radius: 0.12rem;
+    height: 1.8rem;
+}
+</style>
+</html>
+

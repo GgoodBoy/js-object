@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//WAPFORUM//DTD XHTML Mobile 1.0//EN" "http://www.wapforum.org/DTD/xhtml-mobile10.dtd">
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,minimum=1.0,user-scalable=no">
+  <meta name="format-detection" content="telephone=no, email=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta http-equiv="Content-Security-Policy" content="script-src 'self' *.alicdn.com *.qq.com *.wx.qq.com *.7moor.com * *.youfushuyuan.com *.xueguoxue.com *.sohu.com 'unsafe-inline' 'unsafe-eval'">
+
+</head>
+
+<body>
+  <div id="platFormId">
+    <div class="titleNav">
+        <img class="imgInf" src="./img/returnImg.png"/>
+        合作平台
+    </div>
+    <div class="platList"></div>
+  </div>
+</body>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+<script> 
+!(function(doc, win) {
+    var docEle = doc.documentElement,
+        evt = "onorientationchange" in window ? "orientationchange" : "resize",
+        fn = function() {
+            var width = docEle.clientWidth;
+            width && (docEle.style.fontSize = Math.ceil(20 * (width / 320)) + "px");
+        };
+     
+    win.addEventListener(evt, fn, false);
+    doc.addEventListener("DOMContentLoaded", fn, false);
+ 
+}(document, window));
+</script>
+<style>
+html{
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    background: 0 0;
+    color: #000;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;  
+    width: 100%;
+    height: 100%;                  
+}
+#platFormId{
+    position: relative;
+}
+#platFormId .titleNav{
+    text-align: center;
+    width: 100%;
+}
+#platFormId .titleNav .imgInf{
+    position: absolute;
+    left: 0;
+    width: 0.75rem;
+}
+
+</style>
+</html>
+
