@@ -1,0 +1,20 @@
+<html>
+    <head></head>
+    <body>>
+    </body>
+    <script>
+        //输入的内容，包含特殊字符返回true，没有返回false;
+        regularState(data){
+            var regEn = new RegExp("[`~!@#$^&*%()=|{}':;'\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；《》：”“'。，,.、？]"),
+                reg = /^(?!.*\\.*$)/,
+                reg1 = /^(?!.*\/\.*$)/;
+                if(regEn.test(data)||!reg.test(data)||!reg1.test(data)){   
+                    return true;
+                }else{
+                    return false;
+                }
+        }          
+    </script>
+    <style>       
+    </style>
+</html>

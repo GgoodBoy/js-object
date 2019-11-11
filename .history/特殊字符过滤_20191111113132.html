@@ -1,0 +1,19 @@
+<html>
+    <head></head>
+    <body>>
+    </body>
+    <script>
+        regularState(data){
+            var regEn = new RegExp("[`~!@#$^&*%()=|{}':;'\\[\\].<>/?~！@#￥……&*（）——|{}【】‘；《》：”“'。，,.、？]"),
+                reg = /^(?!.*\\.*$)/,
+                reg1 = /^(?!.*\/\.*$)/;
+                if(regEn.test(data)||!reg.test(data)||!reg1.test(data)){   
+                    return true;
+                }else{
+                    return false;
+                }
+        }          
+    </script>
+    <style>       
+    </style>
+</html>
