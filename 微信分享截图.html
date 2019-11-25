@@ -1,0 +1,166 @@
+<template>
+    <div class="shareStepWrap" :class="{'abnormal':hasOpenApp}">
+        <P>
+            微信按下图片下载的事件是微浏览器自己触发的，
+            我们只需要做将要下载的图片定位到浏览器的最高层，
+            方便用户选择到图片从而触发微信下载事件
+        </P>
+        <P>
+            微信内部浏览器打开如果要分享，可以使用微信自己的分享方式，右上角点击会有对应的所有分享端口；
+        </P>        
+        <div class="allbox">
+            <div class="closeShare"  @click="onClickLeft">
+                <van-icon name="close"/>
+            </div>
+            
+            <!-- 表示要下载范围的模板，需要的注意的是，当前模板中布局大块模板不用绝对定位 例如如下元素：（.poster-bgd , .siginShareConten ），
+            要用相对定位，只是每个小模块中小布局可以用绝对定位基于当前模块为基准 例如如下元素:(.userIcon,.siginTopBox-img,.qr-code)； -->
+            
+            <div class="siginCopyImg" :style="{'background':posterBgd.length==0?'#fff':'none'}">
+                <img :src="posterBgd"  class="poster-bgd" v-if="posterBgd.length>0" />
+                <!-- <img :src="autumn" class="poster-bgd" v-if="autumn.length>0" /> -->
+                <div class="siginShareConten">
+                    <div class="siginShareBoxRelative">
+                        <div class="userIcon">
+                            <img :src="userIcons" />
+                        </div>
+                        <img :src="siginTopBox" class="siginTopBox-img"/>
+                        <!-- 生成二维码； -->
+                        <div class="qr-code">
+                            <div class="qrcode" ref="qrCodeUrl"></div>
+                            <p class="qrCodeText">扫码赢抵现积分</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- 这个图表示的是最终下要下载的图 -->
+            <img :src="downloadUrl" class="download-img"/>
+        </div>
+        <div class="poster-footer">
+            <p class="poster-tips">长按上面图片保存，分享给朋友</p>
+        </div>              
+    </div>
+</template>
+<script>
+import html2canvas from 'html2canvas'; //截图前图片的canvas的转换插件；
+import QRCode from 'qrcodejs2';  //生成二维码的插件；
+export default {
+    data(){
+        return {}
+    },
+    props:[],
+    created(){},
+    watch:{
+    },    
+    methods:{
+
+        /**
+         * 将url转base64
+         *url：表示的是需要转换的路径；
+         *给对应图片添加一个对应的名字，用于最后图片创建后的下载图片  例如：
+         *在html中设定的图片是  <img :src="imgDatas" />  ;
+         *使用方法：
+         *this.convertUrlToBase64(xxxx,'imgDatas');
+         *key = "imgDatas" 
+         *这样就可以动态的设定截图；
+         */
+        convertUrlToBase64(url,key){
+            let image = new Image();
+            //解决图片跨域问题，表示允许跨域;
+            image.setAttribute('crossOrigin','Anonymous');
+            image.src= url + '?time=' + new Date().valueOf();
+            image.onload = ()=>{
+                let canvas = document.createElement("canvas");
+                canvas.width = image.width;
+                canvas.height = image.height;
+                let ctx = canvas.getContext("2d");
+                //进行图片压缩
+                ctx.drawImage(image, 0, 0, image.width, image.height);
+                let dataURL = canvas.toDataURL("image/png");
+                this[key] = dataURL;
+                //添加setTimeout()是为了保证img图片彻底url转base64后在进行图片创建
+                setTimeout(()=>{ 
+                    //canvas创建完成后，开始创建图片；
+                    this.createPoster();
+                },1)
+            
+            }
+        },
+        /**
+         * 创建需要截图的图片
+         */
+        createPoster(){
+            let dom = document.querySelector('.siginCopyImg')//表示要截图的范围；
+            let width = dom.offsetWidth;
+            let height = dom.offsetHeight;
+            let scale = 2 //缩放
+            html2canvas(dom,
+                {
+                    dpi: window.devicePixelRatio*2,
+                    scale:scale, 
+                    allowTaint:false,
+                    width:width,
+                    heigth:height,
+                    useCORS: true,
+                    logging: false,
+                }).then((canvas) => {
+                    const context = canvas.getContext('2d');
+                    context.mozImageSmoothingEnabled = false;
+                    context.webkitImageSmoothingEnabled = false;
+                    context.msImageSmoothingEnabled = false;
+                    context.imageSmoothingEnabled = false;
+                    this.downloadUrl = canvas.toDataURL("image/png");
+                    this.$toast.clear();
+                })    
+        },
+        /**
+         * 创建二维码
+         */
+         createQRCode(){
+            var self = this;
+            let uInfo = JSON.parse(this.$getCookie('uInfo'));
+            let userId = uInfo.userid;
+            /*因为是rem ,fontSizie是获取页面的rem的大小；同时要注意的是:
+            二维码的大小是这里设置，不能直接对Dom元素设置，
+            否则会出现大小设置的DOM的大小和二维码生成的大小不一样的情况，导致二维码不能用；
+
+                <div class="qr-code">
+                    <div class="qrcode" ref="qrCodeUrl"></div>
+                    <p class="qrCodeText">扫码赢抵现积分</p>
+                </div>           
+            */
+            let fontSize = Number(window.getComputedStyle(document.documentElement).fontSize.split("px")[0]);
+            let url = window.location.href.split('#')[0]+`?wxshare=true&type=siginShare&&shareId=${userId}`
+            // 第一个参数就是对应二维码元素DOM;
+            let qrcode = new QRCode(this.$refs.qrCodeUrl, {
+                text: url, // 二维码内容  
+                width:2*fontSize,
+                height:2*fontSize
+            });
+        },
+    },
+    mounted(){
+            //生成二维码
+            this.createQRCode();
+            //调用截图方法
+            this.convertUrlToBase64(Imgurl,"imgDownImg");
+    }
+}
+</script>
+<style lang="scss" scoped>
+        /*
+        *下载的图需要两点：
+        *第一,绝对定位；
+        *第二,透明度设置为0；
+        */
+        .download-img{
+            position: absolute;
+            top:0;
+            left: 0;
+            width: 7.5rem;
+            padding: 0.45rem;
+            /* height: 13.34rem; */
+            z-index: 10;
+            opacity: 0 ;
+        }
+</style>
