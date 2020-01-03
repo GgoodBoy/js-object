@@ -1,0 +1,108 @@
+<html>
+    <head></head>
+    <body>>
+    </body>
+    <script>
+        //判断手机类型
+        function judgeBrand(sUserAgent) {
+            var isIphone = sUserAgent.match(/iphone/i) == "iphone";
+            var isHuawei = sUserAgent.match(/huawei/i) == "huawei";
+            var isHonor = sUserAgent.match(/honor/i) == "honor";
+            var isOppo = sUserAgent.match(/oppo/i) == "oppo";
+            var isOppoR15 = sUserAgent.match(/pacm00/i) == "pacm00";
+            var isVivo = sUserAgent.match(/vivo/i) == "vivo";
+            var isXiaomi = sUserAgent.match(/mi\s/i) == "mi ";
+            var isXiaomi2s = sUserAgent.match(/mix\s/i) == "mix ";
+            var isRedmi = sUserAgent.match(/redmi/i) == "redmi";
+            var isSamsung = sUserAgent.match(/sm-/i) == "sm-";
+
+            if (isIphone) {
+                return 'iphone';
+            } else if (isHuawei || isHonor) {
+                return 'huawei';
+            } else if (isOppo || isOppoR15) {
+                return 'oppo';
+            } else if (isVivo) {
+                return 'vivo';
+            } else if (isXiaomi || isRedmi || isXiaomi2s) {
+                return 'xiaomi';
+            } else if (isSamsung) {
+                return 'samsung';
+            } else {
+                return 'default';
+            }
+        };     
+
+        //判断是手机，PC还是平板设备
+        //使用方法:  osNavigator().isAndroid
+        function osNavigator(){
+            var ua = navigator.userAgent,
+            isWindowsPhone = /(?:Windows Phone)/.test(ua),
+            isSymbian = /(?:SymbianOS)/.test(ua) || isWindowsPhone,
+            isAndroid = /(?:Android)/.test(ua),
+            isFireFox = /(?:Firefox)/.test(ua),
+            isChrome = /(?:Chrome|CriOS)/.test(ua),
+            isTablet = /(?:iPad|PlayBook)/.test(ua) || (isAndroid && !/(?:Mobile)/.test(ua)) || (isFireFox && /(?:Tablet)/.test(ua)),
+            isPhone = /(?:iPhone)/.test(ua) && !isTablet,
+            isPc = !isPhone && !isAndroid && !isSymbian;
+            return {
+                isTablet: isTablet,
+                isPhone: isPhone,
+                isAndroid: isAndroid,
+                isPc: isPc
+            };
+        }; 
+
+        //判断当前浏览器是不是微信内置浏览器打开的
+        function isWeixinBrowser() {
+                return (/micromessenger/.test(uaNext)) ? true : false;
+            }    
+
+        //判断浏览器类型
+        function getBrowserInfo(){
+                var ua = navigator.userAgent.toLocaleLowerCase();
+                let uaNext = navigator.userAgent.toLowerCase();
+                var browserType = "";
+                // var this.browserType=null;
+                if (ua.match(/msie/) != null || ua.match(/trident/) != null) {
+                    browserType = "IE";
+                } else if (ua.match(/firefox/) != null) {
+                    browserType = "火狐";
+                }else if (ua.match(/ucbrowser/) != null) {
+                    browserType = "UC";
+                }else if (ua.match(/opera/) != null) {
+                    browserType = "欧朋";
+                } else if (ua.match(/bidubrowser/) != null) {
+                    browserType = "百度";
+                }else if (ua.match(/metasr/) != null) {
+                    browserType = "搜狗";
+                }else if (ua.match(/tencenttraveler/) != null || ua.match(/qqbrowse/) != null) {
+                    browserType = "QQ";
+                }else if (ua.match(/maxthon/) != null) {
+                    browserType = "遨游";
+                }else if (ua.match(/chrome/) != null) {
+                    var is360 = _mime("type", "application/vnd.chromium.remoting-viewer");
+                    function _mime(option, value) {
+                        var mimeTypes = navigator.mimeTypes;
+                        for (var mt in mimeTypes) {
+                            if (mimeTypes[mt][option] == value) {
+                                return true;
+                            }
+                        }
+                        return false;
+                    }
+                    if(is360){
+                        this.browserType = '360';
+                    }else{
+                        // $('html').css("zoom",".80");
+                    }
+                }else if (ua.match(/safari/) != null) {
+                    browserType = "Safari";
+                }
+        }
+
+
+    </script>
+    <style>       
+    </style>
+</html>
