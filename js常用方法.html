@@ -64,7 +64,18 @@
                         //这里是要做隐藏的操作
                         this.selectBool = false;
                     }
-                });        
+                });
+
+        //第二种方法，真多某个范围以内的限制，上面的方法只能针对某一个元素，而无法真多某个元素以内的子元素的限制；
+        document.addEventListener('click', (e)=> {
+            let dom = document.getElementById("twoDivId");
+            if(dom){
+                //这句是说如果我们点击到了id为twoDivId以外的区域
+                if (!dom.contains(e.target)) {
+                        this.selectBool = false;
+                    }
+            }
+        });                
     </script>
     <style>       
     </style>
