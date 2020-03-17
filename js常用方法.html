@@ -56,6 +56,15 @@
                     }
             }, false);
             
+
+        //【3】 实现点击弹出框以外的地方，隐藏弹出框
+                document.addEventListener('click', (e)=> {
+                    console.log(e.target)
+                    if (e.target.className != 'oneDiv') {
+                        //这里是要做隐藏的操作
+                        this.selectBool = false;
+                    }
+                });        
     </script>
     <style>       
     </style>
